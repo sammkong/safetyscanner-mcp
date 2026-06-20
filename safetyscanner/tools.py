@@ -42,30 +42,36 @@ mcp = create_mcp()
 def format_score_result(result: ScoreResult) -> str:
     if not result["matched"]:
         return (
-            f"위험도: {result['score']}/100 ({result['band']})\n\n"
-            "명백한 위험 신호는 발견되지 않았습니다. 다만 안전을 보장하는 것은 아니므로 아래를 직접 확인하세요.\n"
-            "- 선입금·보증금·교육비를 요구하지 않는지 확인\n"
-            "- 외부 메신저나 의심 링크로 이동을 요구하지 않는지 확인\n"
-            "- 신분증·계좌·로그인 정보를 먼저 요구하지 않는지 확인"
+            f"✅ 위험도 : {result['score']}/100 (안전)\n\n"
+            "명백한 위험 신호는 발견되지 않았습니다.\n"
+            "다만 안전을 보장하는 것은 아니므로 아래를 직접 확인하세요.\n"
+            " - 선입금·보증금·교육비를 요구하지 않는지\n"
+            " - 외부 메신저나 의심 링크로 이동을 요구하지 않는지\n"
+            " - 신분증·계좌·로그인 정보를 먼저 요구하지 않는지"
         )
 
-    lines = [f"위험도: {result['score']}/100 ({result['band']})", "", "⚠️ 사기인 이유"]
+    lines = [f"🚨 위험도 : {result['score']}/100 ({result['band']})", "", "⚠️ 사기인 이유"]
 
     for signal in _unique_scam_explanations(result):
-        lines.append(f"- {signal['scam_type']}: {signal['why']}")
+        lines.append(f" - {signal['scam_type']}")
+        lines.append(f"   → {signal['why']}")
 
-    signal_text = ", ".join(
-        f"{signal['label']} [{signal['weight_label']}]" for signal in result["matched"]
-    )
     lines.append("")
-    lines.append(f"🔍 탐지 신호: {signal_text}")
+    lines.append("🔍 탐지된 신호")
+    for signal in result["matched"]:
+        lines.append(f" - {signal['label']} ({signal['weight_label']})")
+
+    lines.append("")
+    lines.append("📌 근거 문구")
     if result["evidence"]:
         quoted = ", ".join(f'"{item}"' for item in result["evidence"][:5])
-        lines.append(f"📌 근거: {quoted}")
+        lines.append(f" {quoted}")
     else:
-        lines.append("📌 근거: 없음")
+        lines.append(" 없음")
 
-    lines.append(f"✅ 권장: {_recommendation(result)}")
+    lines.append("")
+    lines.append("✅ 권장")
+    lines.append(f" {_recommendation(result)}")
     return "\n".join(lines)
 
 
