@@ -1,5 +1,9 @@
 from safetyscanner.scorer import score_text
-from safetyscanner.tools import format_score_result
+from safetyscanner.tools import (
+    format_safe_checklist,
+    format_score_result,
+    format_signal_explanation,
+)
 
 
 def test_normal_listing_scores_safe() -> None:
@@ -148,3 +152,42 @@ def test_account_rental_without_password_case_explains_scam_type() -> None:
     assert result["band"] == "위험"
     assert result["score"] >= 61
     assert "불법 홍보" in output
+
+
+def test_explain_signal_matches_advance_payment() -> None:
+    output = format_signal_explanation("선입금")
+
+    assert "선입금·예약금 유도" in output
+    assert "선입금 먹튀 사기" in output
+    assert "물건이나 일감을 제공하기 전 돈부터 보내게" in output
+
+
+def test_explain_signal_returns_fallback_for_unknown_query() -> None:
+    output = format_signal_explanation("아무거나매칭안됨")
+
+    assert "등록된 위험 신호와 직접 매칭되지 않습니다" in output
+    assert "일반 안전수칙" in output
+
+
+def test_safe_trade_checklist_job_contains_core_items() -> None:
+    output = format_safe_checklist("job")
+
+    assert "알바 안전 체크리스트" in output
+    assert "보증금·교육비·선결제" in output
+    assert "내 계좌로 돈을 받아 이체·인출·전달" in output
+
+
+def test_safe_trade_checklist_trade_contains_core_items() -> None:
+    output = format_safe_checklist("trade")
+
+    assert "중고거래 안전 체크리스트" in output
+    assert "선입금·예약금·계약금" in output
+    assert "안전결제" in output
+
+
+def test_safe_trade_checklist_default_contains_both_categories() -> None:
+    output = format_safe_checklist()
+
+    assert "거래·알바 안전 체크리스트" in output
+    assert "물건 확인 전에 선입금" in output
+    assert "신분증·계좌·통장사본" in output

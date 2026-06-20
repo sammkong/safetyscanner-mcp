@@ -1,4 +1,8 @@
-# SafetyScanner
+<p align="center">
+  <img src="docs/safetyscanner-logo.png" alt="SafetyScanner 로고" width="180" />
+</p>
+
+# **SafetyScanner 안심 알바 스캐너**
 
 > 거래·알바 글을 붙여 넣으면 **사기 의심 신호**를 찾아  
 > **위험도 점수와 근거**를 돌려주는 읽기 전용 MCP 서버입니다.
@@ -48,6 +52,14 @@ risk_score: 75/100 (위험)
 근거: "예약금 먼저 보내주세요", "텔레그램으로 연락"
 권장: 안전결제 이용, 외부 채널 거래 금지
 ```
+
+## 제공 Tools
+
+| Tool | 언제 쓰나요? | 결과 |
+| --- | --- | --- |
+| `score_listing_risk` | 거래글·알바 공고가 사기인지 확인하고 싶을 때 | 위험도 점수, 사기 유형, 탐지 신호, 근거 문구, 권장 행동 |
+| `explain_signal` | “선입금”, “장비 설치”, “계좌 이체” 같은 표현이 왜 위험한지 물을 때 | 해당 신호의 사기 유형, 위험한 이유, 대응 방법 |
+| `safe_trade_checklist` | 거래나 알바를 시작하기 전 스스로 점검하고 싶을 때 | 중고거래·알바 안전 체크리스트 |
 
 ## 기술 구조
 
@@ -148,3 +160,10 @@ Render에서는 `PORT` 환경변수가 자동으로 주입되며,
 
 무료 티어를 사용할 경우, 일정 시간 요청이 없으면 서버가 sleep 상태가 될 수 있습니다.  
 이때 첫 요청은 서버가 다시 깨어나는 **cold start 지연**이 발생할 수 있습니다.
+
+## 기술 스택
+
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![MCP](https://img.shields.io/badge/MCP-FastMCP-111111?style=for-the-badge)
+![Transport](https://img.shields.io/badge/Transport-Streamable_HTTP-2563EB?style=for-the-badge)
+![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=for-the-badge&logo=render&logoColor=111111)
