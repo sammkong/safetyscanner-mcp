@@ -110,3 +110,41 @@ Inspector에서 아래처럼 설정합니다.
 
 - 도구 목록에 `score_listing_risk`가 보이는지
 - 샘플 `text`로 실행했을 때 stub 응답이 오는지
+
+## Render 배포
+
+SafetyScanner는 Render의 **Web Service**로 배포할 수 있습니다.  
+저장소 루트의 `render.yaml`을 Render가 인식하면  
+빌드와 실행 명령이 자동으로 설정됩니다.
+
+| 항목 | 값 |
+| --- | --- |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `python server.py` |
+| Python Version | `3.12.13` |
+
+배포 흐름:
+
+1. GitHub에 이 프로젝트를 올립니다.
+2. Render에서 **New Web Service**를 선택합니다.
+3. GitHub 레포를 연결하고 SafetyScanner 레포를 선택합니다.
+4. Render가 루트의 `render.yaml`을 인식하는지 확인합니다.
+5. 배포가 끝나면 Render가 제공한 HTTPS URL 뒤에 `/mcp`를 붙여 사용합니다.
+
+예시:
+
+```text
+https://safetyscanner.onrender.com/mcp
+```
+
+로컬에서는 `PORT` 환경변수가 없어도 기본값인 `8000`으로 실행됩니다.
+
+```bash
+python server.py
+```
+
+Render에서는 `PORT` 환경변수가 자동으로 주입되며,  
+서버는 그 값을 읽어 해당 포트로 실행됩니다.
+
+무료 티어를 사용할 경우, 일정 시간 요청이 없으면 서버가 sleep 상태가 될 수 있습니다.  
+이때 첫 요청은 서버가 다시 깨어나는 **cold start 지연**이 발생할 수 있습니다.
