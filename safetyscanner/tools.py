@@ -20,9 +20,10 @@ def create_mcp(port: int = 8000) -> FastMCP:
 
     @app.tool(
         description=(
-            "Use this when a user pastes a marketplace or part-time job listing and "
-            "asks whether it might be a scam. Returns a fraud risk score (0-100), "
-            "detected signals, and evidence from SafetyScanner(세이프티스캐너)."
+            "Use this when a user pastes a part-time job or marketplace listing "
+            "and asks whether it might be a scam. Returns a fraud risk assessment "
+            "with scam types and evidence. Provided by SafetyScanner 안심 알바 "
+            "스캐너 (SafetyScanner / 세이프티스캐너)."
         ),
         annotations=ToolAnnotations(
             title="Score Listing Risk",
@@ -40,8 +41,8 @@ def create_mcp(port: int = 8000) -> FastMCP:
         description=(
             "Use this when a user asks WHY a specific phrase or signal in a "
             "job/marketplace listing is dangerous (e.g. 'why is asking for a "
-            "deposit risky?'). Explains the scam type and how to respond, from "
-            "SafetyScanner(세이프티스캐너)."
+            "deposit risky?'). Explains the scam type and how to respond. "
+            "Provided by SafetyScanner 안심 알바 스캐너 (SafetyScanner / 세이프티스캐너)."
         ),
         annotations=ToolAnnotations(
             title="Explain Fraud Signal",
@@ -58,8 +59,8 @@ def create_mcp(port: int = 8000) -> FastMCP:
     @app.tool(
         description=(
             "Use this when a user asks for a safety checklist before taking a "
-            "part-time job or making a secondhand trade. Returns key red-flags "
-            "to self-check, from SafetyScanner(세이프티스캐너)."
+            "part-time job or making a trade. Returns key red-flags to self-check. "
+            "Provided by SafetyScanner 안심 알바 스캐너 (SafetyScanner / 세이프티스캐너)."
         ),
         annotations=ToolAnnotations(
             title="Safe Trade Checklist",
